@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lynch Dynasty: Charlemagne to Brian</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a2e; color: #e0d8c8; font-family: 'EB Garamond', Georgia, serif; min-height: 100vh; }
+
+  /* ============ HEADER ============ */
+  .header {
+    text-align: center; padding: 60px 20px 40px;
+    background: linear-gradient(180deg, #0d0d1a 0%, #1a1a2e 100%);
+    border-bottom: 2px solid #c9a84c;
+    position: relative;
+  }
+  .header::after {
+    content: ''; position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%);
+    width: 60px; height: 4px; background: #c9a84c;
+  }
+  .header h1 {
+    font-family: 'Cinzel Decorative', serif; font-size: 42px; font-weight: 900;
+    color: #c9a84c; letter-spacing: 4px; text-transform: uppercase;
+    text-shadow: 0 0 30px rgba(201,168,76,0.3);
+  }
+  .header .tagline {
+    font-family: 'Cinzel', serif; font-size: 16px; color: #8a7d65;
+    margin-top: 8px; letter-spacing: 3px; text-transform: uppercase;
+  }
+  .header .gen-count {
+    font-family: 'EB Garamond', serif; font-size: 15px; color: #5a5245;
+    margin-top: 12px; font-style: italic;
+  }
+
+  /* ============ ERA BANNER ============ */
+  .era-banner {
+    padding: 20px 30px; text-align: center; position: relative;
+    border-top: 1px solid rgba(201,168,76,0.3); border-bottom: 1px solid rgba(201,168,76,0.3);
+    margin: 0; display: flex; align-items: center; justify-content: center; gap: 16px;
+  }
+  .era-banner .era-icon { font-size: 32px; line-height: 1; }
+  .era-banner .era-title {
+    font-family: 'Cinzel', serif; font-size: 22px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+  }
+  .era-banner .era-years {
+    font-family: 'EB Garamond', serif; font-size: 14px; font-style: italic;
+    opacity: 0.7; display: block; margin-top: 2px;
+  }
+  .era-banner .era-flavor {
+    font-family: 'EB Garamond', serif; font-size: 13px; font-style: italic;
+    opacity: 0.5; display: block; margin-top: 4px; max-width: 600px;
+  }
+
+  /* Era-specific banner colors */
+  .era-modern .era-banner { background: linear-gradient(135deg, #1b2838 0%, #1e3a5f 100%); color: #a8d8ea; }
+  .era-industrial .era-banner { background: linear-gradient(135deg, #2d1f0e 0%, #4a3520 100%); color: #d4a054; }
+  .era-colonial .era-banner { background: linear-gradient(135deg, #1a2e1a 0%, #2d4a2d 100%); color: #8fbc8f; }
+  .era-ancien .era-banner { background: linear-gradient(135deg, #1e1040 0%, #2d1b69 50%, #1e1040 100%); color: #d4af37; }
+  .era-late-medieval .era-banner { background: linear-gradient(135deg, #2a1a0a 0%, #3d2b1a 100%); color: #c4956a; }
+  .era-plantagenet .era-banner { background: linear-gradient(135deg, #3d0c0c 0%, #5c1a1a 100%); color: #e8c170; }
+  .era-norman .era-banner { background: linear-gradient(135deg, #0a1628 0%, #162d50 100%); color: #7eb8da; }
+  .era-dark-ages .era-banner { background: linear-gradient(135deg, #1a1a1a 0%, #2a2a20 100%); color: #9a9070; }
+  .era-carolingian .era-banner { background: linear-gradient(135deg, #2a1a00 0%, #4a3000 50%, #2a1a00 100%); color: #ffd700; border-bottom: 2px solid #ffd700; }
+
+  /* ============ ERA SECTIONS ============ */
+  .era-section { padding: 20px 20px 30px; }
+  .era-section .era-content { max-width: 800px; margin: 0 auto; }
+
+  .era-modern .era-section { background: #16213e; }
+  .era-industrial .era-section { background: #1f1610; }
+  .era-colonial .era-section { background: #141e14; }
+  .era-ancien .era-section { background: #140e30; }
+  .era-late-medieval .era-section { background: #1a1208; }
+  .era-plantagenet .era-section { background: #1f0a0a; }
+  .era-norman .era-section { background: #0c1a30; }
+  .era-dark-ages .era-section { background: #151510; }
+  .era-carolingian .era-section { background: #1a1200; }
+
+  /* ============ PERSON CARDS ============ */
+  .person-card {
+    margin: 14px 0; padding: 16px 20px; border-radius: 4px;
+    position: relative; border-left: 4px solid;
+    transition: transform 0.15s;
+  }
+  .person-card:hover { transform: translateX(4px); }
+  .person-card .gen-tag {
+    font-family: 'Cinzel', serif; font-size: 10px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.6;
+    margin-bottom: 4px;
+  }
+  .person-card .name {
+    font-family: 'Cinzel', serif; font-size: 17px; font-weight: 700;
+    line-height: 1.3;
+  }
+  .person-card .spouse {
+    font-family: 'EB Garamond', serif; font-size: 14px; font-style: italic;
+    opacity: 0.7; margin-top: 2px;
+  }
+  .person-card .detail {
+    font-family: 'EB Garamond', serif; font-size: 13px; opacity: 0.6;
+    margin-top: 4px; line-height: 1.5;
+  }
+
+  /* Connector between cards */
+  .connector-v {
+    display: flex; justify-content: center; margin: 0;
+  }
+  .connector-v .line {
+    width: 2px; height: 14px; opacity: 0.3;
+  }
+
+  /* Era-specific card styles */
+  .era-modern .person-card { background: rgba(30,58,95,0.5); border-color: #4a90d9; color: #c8ddf0; }
+  .era-modern .connector-v .line { background: #4a90d9; }
+
+  .era-industrial .person-card { background: rgba(74,53,32,0.5); border-color: #b8860b; color: #dcc8a0; }
+  .era-industrial .connector-v .line { background: #b8860b; }
+
+  .era-colonial .person-card { background: rgba(34,60,34,0.5); border-color: #5f9f5f; color: #b8d8b8; }
+  .era-colonial .connector-v .line { background: #5f9f5f; }
+
+  .era-ancien .person-card { background: rgba(40,20,80,0.5); border-color: #9370db; color: #d8c8f0; }
+  .era-ancien .connector-v .line { background: #9370db; }
+
+  .era-late-medieval .person-card { background: rgba(50,35,15,0.5); border-color: #8b6914; color: #d4b880; }
+  .era-late-medieval .connector-v .line { background: #8b6914; }
+
+  .era-plantagenet .person-card { background: rgba(80,20,20,0.5); border-color: #c41e3a; color: #e8c8c8; }
+  .era-plantagenet .connector-v .line { background: #c41e3a; }
+
+  .era-norman .person-card { background: rgba(20,40,70,0.5); border-color: #4682b4; color: #b0c8e0; }
+  .era-norman .connector-v .line { background: #4682b4; }
+
+  .era-dark-ages .person-card { background: rgba(35,35,25,0.5); border-color: #706840; color: #b0a880; }
+  .era-dark-ages .connector-v .line { background: #706840; }
+
+  .era-carolingian .person-card { background: rgba(60,45,0,0.6); border-color: #ffd700; color: #f0e0a0; }
+  .era-carolingian .connector-v .line { background: #ffd700; }
+
+  /* ============ HISTORICAL EVENT CALLOUT ============ */
+  .event-callout {
+    margin: 16px 0; padding: 14px 18px; border-radius: 6px;
+    border: 1px solid; position: relative; text-align: center;
+  }
+  .event-callout .event-year {
+    font-family: 'Cinzel', serif; font-size: 12px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; opacity: 0.7;
+  }
+  .event-callout .event-title {
+    font-family: 'Cinzel Decorative', serif; font-size: 18px; font-weight: 700;
+    margin: 4px 0;
+  }
+  .event-callout .event-desc {
+    font-family: 'EB Garamond', serif; font-size: 14px; font-style: italic;
+    opacity: 0.7; max-width: 500px; margin: 4px auto 0;
+  }
+
+  .era-norman .event-callout { background: rgba(20,50,90,0.4); border-color: #4682b4; color: #b0d4f0; }
+  .era-plantagenet .event-callout { background: rgba(100,20,20,0.3); border-color: #c41e3a; color: #f0c8c8; }
+  .era-carolingian .event-callout { background: rgba(80,60,0,0.4); border-color: #ffd700; color: #ffe880; }
+  .era-industrial .event-callout { background: rgba(100,60,20,0.3); border-color: #b8860b; color: #e0c080; }
+  .era-ancien .event-callout { background: rgba(60,30,100,0.3); border-color: #9370db; color: #d8c0f8; }
+
+  /* ============ BORDER CROSSING ============ */
+  .border-crossing-card {
+    border: 2px solid #e74c3c !important; border-left: 6px solid #e74c3c !important;
+    background: rgba(140,30,30,0.3) !important;
+  }
+  .border-badge {
+    display: inline-block; background: #c0392b; color: #fff;
+    font-family: 'Cinzel', serif; font-size: 10px; font-weight: 700;
+    padding: 3px 10px; border-radius: 2px; letter-spacing: 1px;
+    margin-top: 6px;
+  }
+
+  /* ============ FRANCE->CANADA CROSSING ============ */
+  .france-crossing-card {
+    border: 2px solid #8e44ad !important; border-left: 6px solid #8e44ad !important;
+    background: rgba(100,30,130,0.3) !important;
+  }
+  .france-badge {
+    display: inline-block; background: #7d3c98; color: #fff;
+    font-family: 'Cinzel', serif; font-size: 10px; font-weight: 700;
+    padding: 3px 10px; border-radius: 2px; letter-spacing: 1px;
+    margin-top: 6px;
+  }
+
+  /* ============ SPECIAL: CHARLEMAGNE ============ */
+  .charlemagne-card {
+    border: 2px solid #ffd700 !important; border-left: 8px solid #ffd700 !important;
+    background: linear-gradient(135deg, rgba(100,75,0,0.6), rgba(60,45,0,0.8)) !important;
+    padding: 24px !important; text-align: center;
+    box-shadow: 0 0 40px rgba(255,215,0,0.15);
+  }
+  .charlemagne-card .name {
+    font-family: 'Cinzel Decorative', serif; font-size: 26px; color: #ffd700;
+    text-shadow: 0 0 20px rgba(255,215,0,0.3);
+  }
+  .charlemagne-card .gen-tag { color: #ffd700; opacity: 0.8; font-size: 11px; }
+  .charlemagne-card .detail { opacity: 0.8; font-size: 15px; }
+
+  /* ============ CROWN / KING CARDS ============ */
+  .king-card { position: relative; padding-left: 28px !important; }
+  .king-card::before {
+    content: '\265A'; position: absolute; left: 12px; top: 16px;
+    font-size: 16px; opacity: 0.5;
+  }
+
+  /* ============ FOOTER ============ */
+  .footer {
+    text-align: center; padding: 30px 20px; border-top: 1px solid rgba(201,168,76,0.2);
+    background: #0d0d1a;
+  }
+  .footer p {
+    font-family: 'EB Garamond', serif; font-size: 12px; color: #5a5245;
+    font-style: italic;
+  }
+  .footer a { color: #8a7d65; }
+
+  /* ============ FLEUR DE LIS decoration for Ancien Regime ============ */
+  .era-ancien .era-banner::before, .era-ancien .era-banner::after {
+    content: '\269C'; font-size: 18px; opacity: 0.3;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<div class="header">
+  <h1>The Lynch Dynasty</h1>
+  <div class="tagline">From the Modern Age to the Carolingian Empire</div>
+  <div class="gen-count">44 generations &middot; 1,200 years of lineage &middot; Perkins-Bernier-Turgeon-Lecours-LeDran-Joyeuse-Plantagenet line</div>
+</div>
+
+<!-- ===================================================================================== -->
+<!--                            INFORMATION AGE (1950-present)                             -->
+<!-- ===================================================================================== -->
+<div class="era-modern">
+  <div class="era-banner">
+    <div class="era-icon">&#x1F4F1;</div>
+    <div>
+      <div class="era-title">Information Age</div>
+      <div class="era-years">1950 &ndash; Present</div>
+    </div>
+  </div>
+  <div class="era-section"><div class="era-content">
+    <div class="person-card">
+      <div class="gen-tag">You</div>
+      <div class="name">Brian C. Lynch</div>
+      <div class="spouse">m. Katie Frizzi</div>
+      <div class="detail">San Diego, CA. Children: Logan, Sierra, and Simon Lynch.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">Parents</div>
+      <div class="name">Christopher Sean Lynch</div>
+      <div class="spouse">m. Anne Catherine Handley</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">Grandparents</div>
+      <div class="name">Mary Lorene Perkins</div>
+      <div class="spouse">m. David Dexter Lynch (1934&ndash;2020)</div>
+      <div class="detail">World-renowned physicist, "Father of the Hemispherical Resonator Gyroscope," and accomplished classical pianist. Santa Barbara, CA.</div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ===================================================================================== -->
+<!--                            INDUSTRIAL AGE (1850-1950)                                 -->
+<!-- ===================================================================================== -->
+<div class="era-industrial">
+  <div class="era-banner">
+    <div class="era-icon">&#x2699;</div>
+    <div>
+      <div class="era-title">Industrial Age</div>
+      <div class="era-years">1850 &ndash; 1950</div>
+      <div class="era-flavor">Woolen mills, railways, and the great migration from Quebec to New England</div>
+    </div>
+  </div>
+  <div class="era-section"><div class="era-content">
+    <div class="person-card">
+      <div class="gen-tag">1x Great-Grandparents</div>
+      <div class="name">Mary Helen Bernier (1912&ndash;2016)</div>
+      <div class="spouse">m. Raymond Nelson Perkins Sr. (1904&ndash;1984)</div>
+      <div class="detail">Mary Helen lived to age 103. She worked in the Harris Emery woolen mill during WW2, then as a nurse's aide and waitress. Raymond was a weaver in a woolen mill. Both had 8th-grade educations. Boscawen, NH.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+
+    <div class="event-callout">
+      <div class="event-year">U.S. / Canada Border</div>
+      <div class="event-title">&#x1F6A2; The Crossing &mdash; 1890</div>
+      <div class="event-desc">Part of the "Grande H&eacute;morragie" &mdash; the mass migration of nearly 900,000 French Canadians to New England mill towns between 1840&ndash;1930</div>
+    </div>
+
+    <div class="person-card border-crossing-card">
+      <div class="gen-tag">2x Great-Grandparents</div>
+      <div class="name">Achille Joseph Dosith&eacute;e "Archie" Bernier (1877&ndash;1953)</div>
+      <div class="spouse">m. Rose Annie Rule (Houle) &mdash; 2 May 1897, St. Anne's Church, Mooers Forks, NY</div>
+      <div class="detail">Born in Trois-Rivi&egrave;res, Quebec. Immigrated to the United States in 1890 at age 13. Farm laborer, lumberman, and truck driver. Newport, NY.</div>
+      <div class="border-badge">&#x2605; Born in Canada &mdash; Immigrated to USA 1890</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">3x Great-Grandparents</div>
+      <div class="name">Cyrille Bernier (1845&ndash;1910)</div>
+      <div class="spouse">m. Adeline Pageot &mdash; 9 Apr 1866, St-Elz&eacute;ar-de-Lini&egrave;re, Quebec</div>
+      <div class="detail">Cultivateur (farmer). French Canadian; Adeline was Anglaise Canadian. La Patrie, Quebec.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">4x Great-Grandparents</div>
+      <div class="name">Nicolas Bernier (1818&ndash;1905)</div>
+      <div class="spouse">m. Genevieve Patry (1st) &middot; H&eacute;l&egrave;ne Maranda (2nd)</div>
+      <div class="detail">Cultivateur. St-Charles, Bellechasse &rarr; St-Lambert-de-Lauzon, Quebec.</div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ===================================================================================== -->
+<!--                          COLONIAL AGE / NEW FRANCE (1630-1850)                        -->
+<!-- ===================================================================================== -->
+<div class="era-colonial">
+  <div class="era-banner">
+    <div class="era-icon">&#x1F332;</div>
+    <div>
+      <div class="era-title">The Colonial Age</div>
+      <div class="era-years">1630 &ndash; 1850</div>
+      <div class="era-flavor">New France &mdash; settlers carve parishes from the wilderness along the St. Lawrence</div>
+    </div>
+  </div>
+  <div class="era-section"><div class="era-content">
+    <div class="person-card">
+      <div class="gen-tag">5x Great-Grandparents</div>
+      <div class="name">Nicolas Bernier (c. 1782&ndash;1869)</div>
+      <div class="spouse">m. Marie Marguerite Samson &mdash; 17 Feb 1817, Saint-Henri, Quebec</div>
+      <div class="detail">Bellechasse County, Quebec.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">6x Great-Grandparents</div>
+      <div class="name">Andr&eacute; Bernier (1758&ndash;1818)</div>
+      <div class="spouse">m. Marguerite Turgeon (1764&ndash;1837)</div>
+      <div class="detail">St-Charles, Bellechasse, Quebec. Through Marguerite Turgeon, the line connects to the Lecours, LeDran, and Joyeuse families &mdash; and onward to Charlemagne.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">7x Great-Grandparents</div>
+      <div class="name">Jean Turgeon (1725&ndash;1806)</div>
+      <div class="spouse">m. Marie Louise Lecours (1732&ndash;1797)</div>
+      <div class="detail">Beaumont &rarr; Bellechasse, Quebec. Son of Jean Baptiste Turgeon and Marguerite Allaire.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">8x Great-Grandparents</div>
+      <div class="name">Charles Lecours (1686&ndash;1772)</div>
+      <div class="spouse">m. Marie Anne Poliquin (1687&ndash;1730)</div>
+      <div class="detail">L&eacute;vis &rarr; St-Charles, Quebec. Son of Michel Lecours and Louise LeDran.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card france-crossing-card">
+      <div class="gen-tag">9x Great-Grandparents</div>
+      <div class="name">Michel Lecours (1642&ndash;1706)</div>
+      <div class="spouse">m. Louise LeDran (1664&ndash;1713)</div>
+      <div class="detail">Michel was born in Ste-Gemmes Le Robert, Laval, Maine, France. Immigrated to Canada in 1662. Marchand boucher (butcher merchant). Louise was born in Quebec &mdash; first generation in Canada of the LeDran family.</div>
+      <div class="france-badge">&#x269C; Michel: France &rarr; Canada &mdash; 1662</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card france-crossing-card">
+      <div class="gen-tag">10x Great-Grandparents</div>
+      <div class="name">Toussaint LeDran (1638&ndash;1711)</div>
+      <div class="spouse">m. Louise Menacier (1638&ndash;1687)</div>
+      <div class="detail">Born in Brecy (St-Michel), Bretagne, France. Immigrated to Canada in 1663. Louise was a <em>fille du roi</em> &mdash; one of the "King's Daughters" sent by Louis XIV to populate New France. Married 11 Nov 1663 in Quebec City. Settled at St-Etienne de Beaumont.</div>
+      <div class="france-badge">&#x269C; France &rarr; Canada &mdash; 1663 &middot; Louise was a Fille du Roi</div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ===================================================================================== -->
+<!--                        ANCIEN R&Eacute;GIME / RENAISSANCE (1500-1650)                 -->
+<!-- ===================================================================================== -->
+<div class="era-ancien">
+  <div class="era-banner">
+    <div class="era-icon">&#x269C;</div>
+    <div>
+      <div class="era-title">L'Ancien R&eacute;gime</div>
+      <div class="era-years">c. 1500 &ndash; 1650</div>
+      <div class="era-flavor">The age of Versailles, the Wars of Religion, and the Houses of Joyeuse and Longueval in the service of the French Crown</div>
+    </div>
+  </div>
+  <div class="era-section"><div class="era-content">
+
+    <div class="event-callout">
+      <div class="event-year">Historical Context</div>
+      <div class="event-title">&#x269C; France Under the Bourbons</div>
+      <div class="event-desc">The era of Louis XIII and XIV, Cardinal Richelieu, the Edict of Nantes, and the founding of New France. Your ancestors were minor French nobility connected to the House of Joyeuse &mdash; powerful lords of the Languedoc.</div>
+    </div>
+
+    <div class="person-card">
+      <div class="gen-tag">11x Great-Grandparents</div>
+      <div class="name">Louis LeDran</div>
+      <div class="spouse">m. Charlotte Couvent (bap. 1608)</div>
+      <div class="detail">Married c. 1630 in France. From St-Michel du Bourg de Bersy de Soissons, France. Louis was a charbonnier (coal merchant). Died before 1651.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">12x Great-Grandparents</div>
+      <div class="name">Guillaume Couvent</div>
+      <div class="spouse">m. Antoinette de Longueval &mdash; c. 1600, France</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">13x Great-Grandparents</div>
+      <div class="name">Charles de Longueval</div>
+      <div class="spouse">m. Louise de Joyeuse</div>
+      <div class="detail">The critical link to royalty. Through Louise de Joyeuse, the line ascends into the French and English medieval aristocracy.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card" style="border-color: #d4af37;">
+      <div class="gen-tag">14x Great-Grandparents</div>
+      <div class="name">Jean de Joyeuse</div>
+      <div class="spouse">m. Nicole des Ancherins</div>
+      <div class="detail">House of Joyeuse &mdash; a powerful French noble family from the Languedoc, whose members served as marshals of France, admirals, and governors.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card" style="border-color: #d4af37;">
+      <div class="gen-tag">15x Great-Grandparents</div>
+      <div class="name">Fran&ccedil;ois de Joyeuse</div>
+      <div class="spouse">m. Nicole-Fran&ccedil;oise de Beauvais</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card" style="border-color: #d4af37;">
+      <div class="gen-tag">16x Great-Grandparents</div>
+      <div class="name">Robert de Joyeuse</div>
+      <div class="spouse">m. Marguerite de Braban&ccedil;on</div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ===================================================================================== -->
+<!--                      LATE MEDIEVAL / HUNDRED YEARS WAR (1300-1500)                    -->
+<!-- ===================================================================================== -->
+<div class="era-late-medieval">
+  <div class="era-banner">
+    <div class="era-icon">&#x2694;</div>
+    <div>
+      <div class="era-title">The Late Medieval</div>
+      <div class="era-years">c. 1300 &ndash; 1500</div>
+      <div class="era-flavor">The Hundred Years' War, the Black Death, and the great French noble houses of Coucy, Ch&acirc;tillon, and Roucy</div>
+    </div>
+  </div>
+  <div class="era-section"><div class="era-content">
+    <div class="person-card">
+      <div class="gen-tag">17x Great-Grandparents</div>
+      <div class="name">Fran&ccedil;ois de Braban&ccedil;on</div>
+      <div class="spouse">m. Fran&ccedil;oise de Villers</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">18x Great-Grandparents</div>
+      <div class="name">Christophe de Braban&ccedil;on</div>
+      <div class="spouse">m. Jeanne de Sarrebruche</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">19x Great-Grandparents</div>
+      <div class="name">Jeanne, Countess of Roucy and Braine</div>
+      <div class="spouse">m. Robert de Sarrebruche</div>
+      <div class="detail">Roucy and Braine &mdash; counties in the Picardy region of northern France, held by this family for generations.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">20x Great-Grandparents</div>
+      <div class="name">Jean IV, Count of Roucy and Braine</div>
+      <div class="spouse">m. Isabel de Montagu</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">21x Great-Grandparents</div>
+      <div class="name">Hugh II, Count of Roucy and Braine</div>
+      <div class="spouse">m. Blanche de Coucy</div>
+      <div class="detail">The Lords of Coucy were among the most powerful nobles in France. Their motto: <em>"Roi ne suis, ne prince ne duc ne comte aussi; je suis le sire de Coucy."</em> (I am not king, nor prince, nor duke, nor count; I am the Lord of Coucy.)</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">22x Great-Grandparents</div>
+      <div class="name">Raoul de Coucy</div>
+      <div class="spouse">m. Jeanne de Harcourt</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">23x Great-Grandparents</div>
+      <div class="name">Guillaume de Coucy</div>
+      <div class="spouse">m. Isabel de Ch&acirc;tillon</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">24x Great-Grandparents</div>
+      <div class="name">Guy III de Ch&acirc;tillon</div>
+      <div class="spouse">m. Marie of Brittany</div>
+      <div class="detail">House of Ch&acirc;tillon &mdash; one of the great baronial families of medieval France.</div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ===================================================================================== -->
+<!--                       HIGH MEDIEVAL / PLANTAGENET ERA (1150-1300)                     -->
+<!-- ===================================================================================== -->
+<div class="era-plantagenet">
+  <div class="era-banner">
+    <div class="era-icon">&#x1F3F0;</div>
+    <div>
+      <div class="era-title">The Plantagenet Era</div>
+      <div class="era-years">c. 1150 &ndash; 1300</div>
+      <div class="era-flavor">The Angevin Empire, the Crusades, Magna Carta, and the lions of England</div>
+    </div>
+  </div>
+  <div class="era-section"><div class="era-content">
+    <div class="person-card king-card">
+      <div class="gen-tag">25x Great-Grandparents</div>
+      <div class="name">Beatrix Plantagenet</div>
+      <div class="spouse">m. John II, Duke of Brittany</div>
+      <div class="detail">Daughter of King Henry III. The Plantagenet blood enters the line here.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card king-card">
+      <div class="gen-tag">26x Great-Grandparents &middot; King of England</div>
+      <div class="name">&#x265A; Henry III, King of England (1207&ndash;1272)</div>
+      <div class="spouse">m. Eleanor of Provence</div>
+      <div class="detail">Reigned 56 years (1216&ndash;1272). Rebuilt Westminster Abbey. His reign saw the rise of Parliament and the Barons' War.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+
+    <div class="event-callout">
+      <div class="event-year">15 June 1215</div>
+      <div class="event-title">&#x1F4DC; Magna Carta</div>
+      <div class="event-desc">Your 27x great-grandfather King John sealed the Great Charter at Runnymede &mdash; the foundation of constitutional law and individual liberty</div>
+    </div>
+
+    <div class="person-card king-card">
+      <div class="gen-tag">27x Great-Grandparents &middot; King of England</div>
+      <div class="name">&#x265A; John, King of England (1166&ndash;1216)</div>
+      <div class="spouse">m. Isabelle of Angoul&ecirc;me</div>
+      <div class="detail">"Lackland." Lost Normandy to Philip II of France. Signed Magna Carta under duress from his rebellious barons. The villain of the Robin Hood legends.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card king-card">
+      <div class="gen-tag">28x Great-Grandparents &middot; King of England</div>
+      <div class="name">&#x265A; Henry II, King of England (1133&ndash;1189)</div>
+      <div class="spouse">m. Eleanor of Aquitaine (c. 1122&ndash;1204)</div>
+      <div class="detail">Founder of the Angevin Empire stretching from Scotland to the Pyrenees. Eleanor was one of the most powerful women in medieval Europe &mdash; Queen of France (annulled), then Queen of England, patron of troubadours and the arts.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">29x Great-Grandparents</div>
+      <div class="name">Empress Matilda (Maud) of England (1102&ndash;1167)</div>
+      <div class="spouse">m. Geoffrey Plantagenet, Count of Anjou</div>
+      <div class="detail">Fought the civil war known as "The Anarchy" for the English crown. Geoffrey's habit of wearing a sprig of planta genista (broom plant) gave the dynasty its name.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card king-card">
+      <div class="gen-tag">30x Great-Grandparents &middot; King of England</div>
+      <div class="name">&#x265A; Henry I, King of England (c. 1068&ndash;1135)</div>
+      <div class="spouse">m. Maud of Scotland</div>
+      <div class="detail">"Beauclerc" &mdash; the learned king. Youngest son of William the Conqueror. United the Norman and Anglo-Saxon lines through his marriage to Scottish princess Maud (Edith).</div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ===================================================================================== -->
+<!--                            THE NORMAN CONQUEST (1066)                                 -->
+<!-- ===================================================================================== -->
+<div class="era-norman">
+  <div class="era-banner">
+    <div class="era-icon">&#x1F6E1;</div>
+    <div>
+      <div class="era-title">The Norman Conquest</div>
+      <div class="era-years">c. 1000 &ndash; 1100</div>
+      <div class="era-flavor">The age that remade England &mdash; when a duke of Normandy became a king</div>
+    </div>
+  </div>
+  <div class="era-section"><div class="era-content">
+
+    <div class="event-callout">
+      <div class="event-year">14 October 1066</div>
+      <div class="event-title">&#x2694; The Battle of Hastings</div>
+      <div class="event-desc">Your 31x great-grandfather William, Duke of Normandy, defeated King Harold II and seized the English crown &mdash; changing the course of Western civilization forever</div>
+    </div>
+
+    <div class="person-card king-card" style="border-width: 3px;">
+      <div class="gen-tag">31x Great-Grandparents &middot; King of England</div>
+      <div class="name">&#x265A; William the Conqueror (c. 1028&ndash;1087)</div>
+      <div class="spouse">m. Matilda of Flanders</div>
+      <div class="detail">William I, King of England. "The Bastard" &mdash; born illegitimate son of Robert I of Normandy and Herleve, a tanner's daughter. He commissioned the Domesday Book, built the Tower of London, and established Norman rule over England.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">32x Great-Grandparents</div>
+      <div class="name">Robert I, Duke of Normandy (c. 1000&ndash;1035)</div>
+      <div class="spouse">m. Herleve of Falaise</div>
+      <div class="detail">"Robert the Magnificent." Died on pilgrimage to Jerusalem, leaving his young illegitimate son William as duke.</div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ===================================================================================== -->
+<!--                            THE DARK AGES (900-1000)                                   -->
+<!-- ===================================================================================== -->
+<div class="era-dark-ages">
+  <div class="era-banner">
+    <div class="era-icon">&#x1F56F;</div>
+    <div>
+      <div class="era-title">The Dark Ages</div>
+      <div class="era-years">c. 850 &ndash; 1000</div>
+      <div class="era-flavor">Vikings raid the coasts, feudalism takes root, and the descendants of Charlemagne fracture his empire</div>
+    </div>
+  </div>
+  <div class="era-section"><div class="era-content">
+    <div class="person-card">
+      <div class="gen-tag">33x Great-Grandparents</div>
+      <div class="name">Judith of Brittany (c. 982&ndash;1017)</div>
+      <div class="spouse">m. Richard II, Duke of Normandy</div>
+      <div class="detail">Richard "The Good." Under his rule, Normandy became one of the most powerful duchies in France.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">34x Great-Grandparents</div>
+      <div class="name">Ermengarde of Anjou</div>
+      <div class="spouse">m. Conan I, Duke of Brittany</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">35x Great-Grandparents</div>
+      <div class="name">Adele of Troyes</div>
+      <div class="spouse">m. Geoffroi I Grisegonelle, Count of Anjou</div>
+      <div class="detail">"Greymantle" &mdash; a formidable warrior count of the Loire Valley.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">36x Great-Grandparents</div>
+      <div class="name">Robert of Vermandois</div>
+      <div class="spouse">m. Adelaide of Burgundy</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">37x Great-Grandparents</div>
+      <div class="name">Herbert II of Vermandois (c. 884&ndash;943)</div>
+      <div class="spouse">m. Liegarde of France</div>
+      <div class="detail">One of the most powerful and ruthless lords of his age. Held Charles the Simple prisoner. The Vermandois line carries the blood of Charlemagne through his great-grandson Pepin.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">38x Great-Grandparents</div>
+      <div class="name">Herbert I of Vermandois (c. 848&ndash;907)</div>
+      <div class="spouse">m. Bertha de Morvois</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">39x Great-Grandparents</div>
+      <div class="name">Pepin of Vermandois</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+    <div class="person-card">
+      <div class="gen-tag">40x Great-Grandparents</div>
+      <div class="name">Bernard of Italy (c. 797&ndash;818)</div>
+      <div class="spouse">m. Cunegonde of Laon</div>
+      <div class="detail">King of Italy. Grandson of Charlemagne. Rebelled against Emperor Louis the Pious and was blinded as punishment, dying of his wounds.</div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ===================================================================================== -->
+<!--                        THE CAROLINGIAN EMPIRE (768-900)                               -->
+<!-- ===================================================================================== -->
+<div class="era-carolingian">
+  <div class="era-banner">
+    <div class="era-icon">&#x1F451;</div>
+    <div>
+      <div class="era-title">The Carolingian Empire</div>
+      <div class="era-years">c. 768 &ndash; 900</div>
+      <div class="era-flavor">The dawn of European civilization &mdash; when one man united the continent under a single crown</div>
+    </div>
+  </div>
+  <div class="era-section"><div class="era-content">
+    <div class="person-card">
+      <div class="gen-tag">41x Great-Grandparents</div>
+      <div class="name">Pepin, King of Italy (c. 773&ndash;810)</div>
+      <div class="detail">Second son of Charlemagne. King of the Lombards. Fought campaigns against the Avars and the Byzantine Empire in the Adriatic.</div>
+    </div>
+    <div class="connector-v"><div class="line"></div></div>
+
+    <div class="event-callout">
+      <div class="event-year">25 December 800</div>
+      <div class="event-title">&#x1F451; Crowned Emperor of the Romans</div>
+      <div class="event-desc">Pope Leo III placed the imperial crown on Charlemagne's head at St. Peter's Basilica in Rome &mdash; reviving the Western Roman Empire and founding what would become the Holy Roman Empire</div>
+    </div>
+
+    <div class="person-card charlemagne-card">
+      <div class="gen-tag">42x Great-Grandparents &middot; Emperor</div>
+      <div class="name">Charlemagne</div>
+      <div class="spouse">m. Hildegard of Vinzgouw</div>
+      <div class="detail" style="margin-top: 10px;">
+        Charles the Great &middot; <em>Carolus Magnus</em> &middot; c. 748&ndash;814<br><br>
+        King of the Franks. King of the Lombards. Emperor of the Romans.<br>
+        Father of Europe. Founder of the Carolingian Renaissance.<br><br>
+        He united most of Western Europe for the first time since the fall of Rome,<br>
+        championed education and literacy, standardized weights and currency,<br>
+        and laid the foundations upon which all of medieval Christendom was built.<br><br>
+        <strong>Your 42x great-grandfather.</strong>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div class="footer">
+  <p>Lineage compiled from the Perkins family genealogy spreadsheet (updated June 2025).</p>
+  <p>The royal connection runs through Louise de Joyeuse. Full cousin list: <a href="https://famouskin.com/famous-kin-menu.php?name=91936+louise+de+joyeuse" target="_blank" style="color:#8a7d65;">FamousKin</a></p>
+  <p style="margin-top: 8px;">Charlemagne on FamousKin: <a href="https://famouskin.com/famous-kin-menu.php?name=4143+charlemagne" target="_blank" style="color:#8a7d65;">famouskin.com</a></p>
+  <p style="margin-top: 12px; opacity: 0.5;">Prepared March 2026</p>
+</div>
+
+</body>
+</html>
