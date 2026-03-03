@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perkins-Bernier Line: Direct Path to Canada</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Calibri, Arial, sans-serif; background: #f5f5f0; color: #333; padding: 40px 20px; }
+  .container { max-width: 900px; margin: 0 auto; }
+
+  h1 { text-align: center; font-size: 28px; color: #2c3e50; margin-bottom: 5px; }
+  .subtitle { text-align: center; font-size: 15px; color: #7f8c8d; margin-bottom: 8px; }
+  .date { text-align: center; font-size: 13px; color: #95a5a6; margin-bottom: 35px; }
+
+  /* Legend */
+  .legend {
+    display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+    margin-bottom: 30px; padding: 12px 20px;
+    background: #fff; border-radius: 8px; border: 1px solid #e0e0e0;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+  .legend-dot { width: 14px; height: 14px; border-radius: 3px; }
+  .legend-dot.usa { background: #3498db; }
+  .legend-dot.border { background: #e74c3c; }
+  .legend-dot.canada { background: #d4a017; }
+  .legend-dot.france { background: #8e44ad; }
+
+  /* Connector line */
+  .connector { display: flex; justify-content: center; padding: 0; }
+  .connector-line {
+    width: 3px; height: 28px;
+    background: linear-gradient(to bottom, #bdc3c7, #95a5a6);
+  }
+  .connector-arrow {
+    width: 0; height: 0; margin: 0 auto;
+    border-left: 8px solid transparent; border-right: 8px solid transparent;
+    border-top: 10px solid #95a5a6;
+  }
+
+  /* Person card */
+  .person {
+    background: #fff; border-radius: 10px; padding: 18px 22px;
+    border-left: 6px solid #3498db;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    position: relative;
+  }
+  .person.canada { border-left-color: #d4a017; background: #fffef5; }
+  .person.border-crossing { border-left-color: #e74c3c; background: #fef5f5; }
+  .person.france { border-left-color: #8e44ad; background: #faf5fe; }
+
+  .gen-label {
+    position: absolute; top: -11px; left: 18px;
+    background: #3498db; color: #fff; font-size: 11px; font-weight: 600;
+    padding: 2px 10px; border-radius: 10px; letter-spacing: 0.3px;
+  }
+  .person.canada .gen-label { background: #d4a017; }
+  .person.border-crossing .gen-label { background: #e74c3c; }
+  .person.france .gen-label { background: #8e44ad; }
+
+  .person-name { font-size: 18px; font-weight: 700; color: #2c3e50; margin-top: 6px; }
+  .person-dates { font-size: 13px; color: #7f8c8d; margin-top: 2px; }
+  .person-detail { font-size: 13px; color: #555; margin-top: 6px; line-height: 1.5; }
+  .person-location { font-size: 13px; margin-top: 4px; }
+  .person-location .flag { font-size: 15px; margin-right: 3px; }
+
+  .border-badge {
+    display: inline-block; background: #e74c3c; color: #fff;
+    font-size: 12px; font-weight: 700; padding: 3px 12px; border-radius: 12px;
+    margin-top: 8px; letter-spacing: 0.5px;
+  }
+
+  /* Citation box */
+  .citations {
+    margin-top: 10px; padding: 10px 14px;
+    background: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef;
+  }
+  .citations-label { font-size: 11px; font-weight: 700; color: #95a5a6; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .citations ul { list-style: none; padding: 0; }
+  .citations li {
+    font-size: 12px; color: #555; padding: 3px 0; padding-left: 16px;
+    position: relative; line-height: 1.5;
+  }
+  .citations li::before {
+    content: "\25B8"; position: absolute; left: 2px; color: #95a5a6;
+  }
+  .citations a { color: #2980b9; text-decoration: none; }
+  .citations a:hover { text-decoration: underline; }
+  .cite-note { font-style: italic; color: #999; font-size: 11px; }
+
+  /* Section dividers */
+  .section-divider {
+    text-align: center; padding: 18px 0 8px 0; position: relative;
+  }
+  .section-divider span {
+    display: inline-block; background: #f5f5f0; padding: 0 16px;
+    font-size: 13px; font-weight: 700; color: #95a5a6;
+    text-transform: uppercase; letter-spacing: 1.5px; position: relative; z-index: 1;
+  }
+  .section-divider::before {
+    content: ""; position: absolute; top: 50%; left: 10%; right: 10%;
+    height: 1px; background: #ddd;
+  }
+
+  /* Source databases footer */
+  .db-section {
+    margin-top: 40px; background: #fff; border-radius: 10px;
+    padding: 22px 26px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .db-section h3 { font-size: 16px; color: #2c3e50; margin-bottom: 12px; }
+  .db-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; }
+  .db-item { font-size: 13px; line-height: 1.6; }
+  .db-item a { color: #2980b9; text-decoration: none; font-weight: 600; }
+  .db-item a:hover { text-decoration: underline; }
+  .db-item .db-desc { color: #777; }
+
+  .print-sources {
+    margin-top: 20px; padding-top: 14px; border-top: 1px solid #eee;
+  }
+  .print-sources h4 { font-size: 14px; color: #2c3e50; margin-bottom: 8px; }
+  .print-sources li { font-size: 12px; color: #555; line-height: 1.6; margin-bottom: 4px; }
+
+  .footer { text-align: center; margin-top: 30px; font-size: 11px; color: #bbb; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>The Perkins-Bernier Line: Direct Path to Canada</h1>
+<p class="subtitle">Most direct ancestral connection from Brian C. Lynch (USA) to Quebec, Canada</p>
+<p class="date">Compiled March 2, 2026 &mdash; Based on the Perkins family genealogy spreadsheet (updated Jun 2025)</p>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot usa"></div> United States</div>
+  <div class="legend-item"><div class="legend-dot border"></div> Border Crossing</div>
+  <div class="legend-item"><div class="legend-dot canada"></div> Quebec, Canada</div>
+  <div class="legend-item"><div class="legend-dot france"></div> France &rarr; Canada Immigrant</div>
+</div>
+
+<!-- ==================== PERSON 1: BRIAN ==================== -->
+<div class="person" style="margin-top: 20px;">
+  <div class="gen-label">YOU</div>
+  <div class="person-name">Brian C. Lynch</div>
+  <div class="person-dates">Born December 1984</div>
+  <div class="person-location">Riverside, CA &rarr; San Diego, CA</div>
+  <div class="person-detail">Married Katie Frizzi. Children: Logan, Sierra, and Simon Lynch.</div>
+</div>
+
+<div class="connector"><div class="connector-line"></div></div>
+
+<!-- ==================== PERSON 2: CHRISTOPHER ==================== -->
+<div class="person">
+  <div class="gen-label">FATHER</div>
+  <div class="person-name">Christopher Sean Lynch</div>
+  <div class="person-dates">Born March 1959</div>
+  <div class="person-location">Riverside, CA</div>
+  <div class="person-detail">Married Anne Catherine Handley (born March 1955).</div>
+</div>
+
+<div class="connector"><div class="connector-line"></div></div>
+
+<!-- ==================== PERSON 3: DAVID ==================== -->
+<div class="person">
+  <div class="gen-label">GRANDFATHER</div>
+  <div class="person-name">David Dexter Lynch</div>
+  <div class="person-dates">Born 22 May 1934, New York &mdash; Died 8 Apr 2020, Santa Barbara, CA</div>
+  <div class="person-location">Santa Barbara, CA</div>
+  <div class="person-detail">World-renowned physicist and "Father of the Hemispherical Resonator Gyroscope"; accomplished classical pianist. Married <strong>Mary Lorene Perkins</strong> on 4 Sep 1954 in Concord, NH.</div>
+  <div class="citations">
+    <div class="citations-label">Sources</div>
+    <ul>
+      <li><a href="https://www.legacy.com/us/obituaries/concordmonitor/name/sheldon-perkins-obituary?id=38191113" target="_blank">Sheldon Perkins Obituary, Concord Monitor (2022)</a> &mdash; confirms family connections</li>
+      <li>New Hampshire Marriage Records, Concord, 4 Sep 1954 &mdash; <a href="https://www.concordnh.gov/995/Vital-Records" target="_blank">City of Concord Vital Records</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="connector"><div class="connector-line"></div></div>
+
+<!-- ==================== PERSON 4: MARY LORENE ==================== -->
+<div class="person">
+  <div class="gen-label">GRANDMOTHER</div>
+  <div class="person-name">Mary Lorene Perkins</div>
+  <div class="person-dates">Born 14 Jun 1935, New Hampshire</div>
+  <div class="person-location">Concord, NH &rarr; Santa Barbara, CA</div>
+  <div class="person-detail">Daughter of Raymond Nelson Perkins Sr. and Mary Helen Bernier.</div>
+  <div class="citations">
+    <div class="citations-label">Sources</div>
+    <ul>
+      <li>New Hampshire Birth Records, 1935 &mdash; NH Division of Vital Records, Concord</li>
+      <li>1940 U.S. Federal Census, Boscawen, Merrimack Co., NH &mdash; <a href="https://www.familysearch.org" target="_blank">FamilySearch.org</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="connector"><div class="connector-line"></div></div>
+
+<!-- ==================== PERSON 5: RAYMOND ==================== -->
+<div class="person">
+  <div class="gen-label">GREAT-GRANDFATHER</div>
+  <div class="person-name">Raymond Nelson Perkins Sr.</div>
+  <div class="person-dates">Born 19 May 1904, Boscawen, NH &mdash; Died 28 Aug 1984, Concord, NH</div>
+  <div class="person-location">Boscawen / Concord, NH</div>
+  <div class="person-detail">Weaver in a woolen mill and doffer in a cotton mill. 8th grade education. 5'7" with blue eyes and brown hair. Married <strong>Mary Helen Bernier</strong> in 1930.</div>
+  <div class="citations">
+    <div class="citations-label">Sources</div>
+    <ul>
+      <li>New Hampshire Town Vital Records, Boscawen, 1904 &mdash; <a href="https://www.familysearch.org/en/wiki/Boscawen,_Merrimack_County,_New_Hampshire_Genealogy" target="_blank">FamilySearch Wiki: Boscawen, NH</a></li>
+      <li>1910, 1920, 1930, 1940 U.S. Federal Census, Boscawen, Merrimack Co., NH &mdash; <a href="https://www.familysearch.org" target="_blank">FamilySearch.org</a></li>
+      <li>Social Security Death Index (SSDI), d. Aug 1984</li>
+    </ul>
+  </div>
+</div>
+
+<div class="connector"><div class="connector-line"></div></div>
+
+<!-- ==================== PERSON 6: MARY HELEN ==================== -->
+<div class="person">
+  <div class="gen-label">GREAT-GRANDMOTHER</div>
+  <div class="person-name">Mary Helen Bernier</div>
+  <div class="person-dates">Born 3 Oct 1912, Tupper Lake, NY &mdash; Died 16 Sep 2016, Concord, NH (age 103)</div>
+  <div class="person-location">Tupper Lake, NY &rarr; Concord, NH</div>
+  <div class="person-detail">Laborer in the Harris Emery woolen mill during WW2; nurses aide and waitress. 8th grade education. Daughter of <strong>Achille "Archie" Bernier</strong> (born in Canada) and Rose Annie Rule.</div>
+  <div class="citations">
+    <div class="citations-label">Sources</div>
+    <ul>
+      <li>New York State Birth Records, Franklin County, Tupper Lake, 3 Oct 1912</li>
+      <li>1920 U.S. Federal Census, Tupper Lake, Franklin Co., NY (age ~8) &mdash; <a href="https://www.familysearch.org" target="_blank">FamilySearch.org</a></li>
+      <li><a href="https://www.legacy.com/us/obituaries/concordmonitor/name/sheldon-perkins-obituary?id=38191113" target="_blank">Sheldon Perkins Obituary (2022)</a> &mdash; confirms "the late Raymond and Helen (Bernier) Perkins of Boscawen"</li>
+      <li>NH Division of Vital Records, death 16 Sep 2016, Concord, NH</li>
+    </ul>
+  </div>
+</div>
+
+<div class="section-divider"><span>U.S. / Canada Border Crossing</span></div>
+
+<!-- ==================== PERSON 7: ARCHIE ==================== -->
+<div class="person border-crossing" style="margin-top: 18px;">
+  <div class="gen-label">2x GREAT-GRANDFATHER</div>
+  <div class="person-name">Achille Joseph Dosith&eacute;e "Archie" Bernier</div>
+  <div class="person-dates">Born 14 May 1877, Trois-Rivi&egrave;res, Quebec, CANADA &mdash; Died 29 Apr 1953, Newport, NY</div>
+  <div class="person-location"><strong>Born: Trois-Rivi&egrave;res, Quebec, Canada</strong> &rarr; Immigrated to USA 1890 &rarr; Newport, NY</div>
+  <div class="person-detail">Farm laborer, lumberman, and truck driver. Married 2 May 1897 at St. Anne's Church, Mooers Forks, Clinton County, NY to Rose Annie Rule (also listed as Houle; born 13 Dec 1876, Plattsburgh, NY; her mother Octavia Gibeau was also from Canada and spoke French).</div>
+  <div class="border-badge">IMMIGRATED FROM CANADA TO USA &mdash; 1890</div>
+  <div class="citations">
+    <div class="citations-label">Sources</div>
+    <ul>
+      <li>Quebec Catholic Parish Registers, Trois-Rivi&egrave;res, baptism 14 May 1877 &mdash; <a href="https://www.prdh-igd.com/en/home" target="_blank">PRDH</a> / <a href="https://www.familysearch.org/en/search/collection/1321742" target="_blank">FamilySearch Collection 1321742</a></li>
+      <li>St. Anne's Church Marriage Register, Mooers Forks, Clinton Co., NY, 2 May 1897 &mdash; Diocese of Ogdensburg Archives / <a href="https://www.familysearch.org/en/wiki/Mooers,_New_York" target="_blank">FamilySearch Wiki: Mooers, NY</a></li>
+      <li>1900, 1910, 1920, 1930, 1940 U.S. Federal Census &mdash; search "Archie Bernier," Herkimer/Clinton Co., NY &mdash; <a href="https://www.familysearch.org" target="_blank">FamilySearch.org</a> <span class="cite-note">(1900 census confirms immigration year 1890)</span></li>
+      <li>New York State Death Certificate, 29 Apr 1953, Newport, Herkimer Co., NY &mdash; NY Dept. of Health Vital Records</li>
+    </ul>
+  </div>
+</div>
+
+<div class="section-divider"><span>Quebec, Canada (7 Generations)</span></div>
+
+<!-- ==================== PERSON 8: CYRILLE ==================== -->
+<div class="person canada" style="margin-top: 18px;">
+  <div class="gen-label">3x GREAT-GRANDFATHER</div>
+  <div class="person-name">Cyrille Bernier</div>
+  <div class="person-dates">Born 22 Mar 1845, Quebec, Canada &mdash; Died 3 Apr 1910, La Patrie, Quebec, Canada</div>
+  <div class="person-location">St-Elz&eacute;ar / La Patrie, Quebec</div>
+  <div class="person-detail">Cultivateur (farmer). French Canadian. Married 9 Apr 1866 at St-Elz&eacute;ar-De-Lini&egrave;re, Quebec to Adeline Pageot (born 5 Oct 1842, Anglaise Canadian). Son of Nicolas Bernier and Genevieve Patry.</div>
+  <div class="citations">
+    <div class="citations-label">Sources</div>
+    <ul>
+      <li><a href="https://www.nosorigines.qc.ca/GenealogieQuebec.aspx?pid=89476&lng=en" target="_blank">Nos Origines, PID 89476</a> &mdash; father Nicolas Bernier's record lists "Joseph-Cyrille" (b. 22 Mar 1845, d. 3 Apr 1910) as child</li>
+      <li>Quebec Parish Registers, St-Elz&eacute;ar-de-Lini&egrave;re, marriage 9 Apr 1866 &mdash; <a href="https://www.prdh-igd.com/en/home" target="_blank">PRDH</a> / <a href="https://www.familysearch.org/en/search/collection/1321742" target="_blank">FamilySearch Collection 1321742</a></li>
+      <li>Burial likely at Cimeti&egrave;re Saint-Pierre, La Patrie, QC &mdash; <a href="https://www.findagrave.com/cemetery/2496033/cimetiere-de-saint-pierre-de-la-patrie" target="_blank">Find a Grave Cemetery #2496033</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="connector"><div class="connector-line"></div></div>
+
+<!-- ==================== PERSON 9: NICOLAS 1818 ==================== -->
+<div class="person canada">
+  <div class="gen-label">4x GREAT-GRANDFATHER</div>
+  <div class="person-name">Nicolas Bernier</div>
+  <div class="person-dates">Born 11 Feb 1818, St-Charles, Bellechasse, Quebec &mdash; Died 21 Jul 1905, St-Lambert-de-Lauzon, Quebec</div>
+  <div class="person-location">St-Charles / St-Lambert-de-Lauzon, Quebec</div>
+  <div class="person-detail">Cultivateur (farmer). Married (1st) 9 Feb 1841 at Saint-Isidore-de-Lauzon to Genevieve Patry (born 7 Nov 1821, died 17 Apr 1846). Married (2nd) 4 Sep 1848 to H&eacute;l&egrave;ne Maranda. Son of Nicolas Bernier and Marie Marguerite Samson.</div>
+  <div class="citations">
+    <div class="citations-label">Sources</div>
+    <ul>
+      <li><a href="https://www.nosorigines.qc.ca/GenealogieQuebec.aspx?pid=89476&lng=en" target="_blank">Nos Origines, PID 89476</a> &mdash; birth 11 Feb 1818, death 21 Jul 1905 (age 87), cultivateur; parents, both marriages, and children listed</li>
+      <li>Quebec Parish Registers, St-Charles-de-Bellechasse, baptism Feb 1818; St-Isidore-de-Lauzon, marriage 9 Feb 1841 &mdash; <a href="https://www.prdh-igd.com/en/home" target="_blank">PRDH</a></li>
+      <li><a href="https://www.familysearch.org/en/search/collection/1321742" target="_blank">FamilySearch: Quebec Catholic Parish Registers, 1621&ndash;1979</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="connector"><div class="connector-line"></div></div>
+
+<!-- ==================== PERSON 10: NICOLAS 1782 ==================== -->
+<div class="person canada">
+  <div class="gen-label">5x GREAT-GRANDFATHER</div>
+  <div class="person-name">Nicolas Bernier</div>
+  <div class="person-dates">Born c. 1782&ndash;1790, Quebec, Canada &mdash; Died 12 Jan 1869, St-Lambert-de-Lauzon, Quebec</div>
+  <div class="person-location">St-Charles / St-Lambert-de-Lauzon, Quebec</div>
+  <div class="person-detail">Married 17 Feb 1817 at Saint-Henri, Desjardins, Quebec to Marie Marguerite Samson (born 7 Oct 1791 St-Pierre-de-la-Rivi&egrave;re-du-Sud, died 31 Mar 1869). Son of Andre Bernier and Marguerite Turgeon.</div>
+  <div class="citations">
+    <div class="citations-label">Sources</div>
+    <ul>
+      <li><a href="https://www.nosorigines.qc.ca/GenealogieQuebec.aspx?pid=1076237&lng=en" target="_blank">Nos Origines, PID 1076237</a> &mdash; birth c. 1790, death 12 Jan 1869 (age 79), cultivateur; parents, marriage, and children listed</li>
+      <li>Quebec Parish Registers, Saint-Henri-de-Lauzon, marriage 17 Feb 1817 &mdash; <a href="https://www.prdh-igd.com/en/home" target="_blank">PRDH</a></li>
+      <li><span class="cite-note">Note: spreadsheet lists birth as 1782; Nos Origines lists c. 1790 based on death age of 79 in 1869</span></li>
+    </ul>
+  </div>
+</div>
+
+<div class="connector"><div class="connector-line"></div></div>
+
+<!-- ==================== PERSON 11: ANDRE 1758 ==================== -->
+<div class="person canada">
+  <div class="gen-label">6x GREAT-GRANDFATHER</div>
+  <div class="person-name">Andr&eacute; Bernier</div>
+  <div class="person-dates">Born 9 Aug 1758, St-Charles, Bellechasse, Quebec &mdash; Died 14 Dec 1818, St-Charles, Bellechasse, Quebec</div>
+  <div class="person-location">St-Charles, Bellechasse, Quebec</div>
+  <div class="person-detail">Married 30 Jul 1782 at St-Charles, Bellechasse to Marguerite Turgeon (born 30 May 1764, died 12 Jul 1837; parents: Jean Turgeon and Marie Louise Lecourt). Son of Joachim Bernier and Marie-Fran&ccedil;oise Lisse dit Gourdeau.</div>
+  <div class="citations">
+    <div class="citations-label">Sources</div>
+    <ul>
+      <li><a href="https://www.nosorigines.qc.ca/GenealogieQuebec.aspx?pid=212558&lng=en" target="_blank">Nos Origines, PID 212558</a> &mdash; birth 9 Aug 1758, death 14 Dec 1818 (age 60); parents, marriage, 15 children listed</li>
+      <li>Quebec Parish Registers, St-Charles-de-Bellechasse: baptism Aug 1758, marriage 30 Jul 1782, burial Dec 1818 &mdash; <a href="https://www.prdh-igd.com/en/home" target="_blank">PRDH</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="connector"><div class="connector-line"></div></div>
+
+<!-- ==================== PERSON 12: JOACHIM ==================== -->
+<div class="person canada">
+  <div class="gen-label">7x GREAT-GRANDFATHER</div>
+  <div class="person-name">Joachim Bernier</div>
+  <div class="person-dates">Born 31 Jan 1731, Saint-Charles-Borrom&eacute;e-de-Charlesbourg, Quebec &mdash; Died 18 May 1803, Saint-Charles Bellechasse, Quebec</div>
+  <div class="person-location">Charlesbourg &rarr; Bellechasse, Quebec</div>
+  <div class="person-detail">Married 29 Apr 1754 at Beaumont, Quebec to Marie-Fran&ccedil;oise Lisse dit Gourdeau (born 1 Feb 1719 St-Etienne-de-Beaumont, died 3 Aug 1808). Son of Andr&eacute; Bernier and Marie Francoise Bernard dit Lariviere.</div>
+  <div class="citations">
+    <div class="citations-label">Sources</div>
+    <ul>
+      <li><a href="https://www.nosorigines.qc.ca/GenealogieQuebec.aspx?pid=1044804&lng=en" target="_blank">Nos Origines, PID 1044804</a> &mdash; birth 31 Jan 1731, death 18 May 1803; parents, marriage, children listed</li>
+      <li>Quebec Parish Registers: Charlesbourg, baptism 1 Feb 1731; St-Etienne-de-Beaumont, marriage 29 Apr 1754; St-Charles-de-Bellechasse, burial 20 May 1803 &mdash; <a href="https://www.prdh-igd.com/en/home" target="_blank">PRDH</a></li>
+      <li><a href="https://gw.geneanet.org/chouanne1?lang=en&n=bernier&oc=1&p=joachim" target="_blank">Geneanet: Joachim Bernier</a> &mdash; confirms baptism, marriage, and burial</li>
+    </ul>
+  </div>
+</div>
+
+<div class="connector"><div class="connector-line"></div></div>
+
+<!-- ==================== PERSON 13: ANDRE 1695 ==================== -->
+<div class="person canada">
+  <div class="gen-label">8x GREAT-GRANDFATHER</div>
+  <div class="person-name">Andr&eacute; Bernier</div>
+  <div class="person-dates">Born 4 Apr 1695, Gros Pin, Charlesbourg, Quebec &mdash; Died 19 Feb 1757, Charlesbourg, Quebec</div>
+  <div class="person-location">Charlesbourg, Quebec</div>
+  <div class="person-detail">Married 28 Nov 1724 at Notre-Dame-de-Qu&eacute;bec to Marie Francoise Bernard dit Lariviere (born 26 Mar 1708, died 9 Nov 1783; parents: Hilaire Bernard dit Lariviere and Marie Madeleine Voyer). First generation born in Canada. Son of Andr&eacute; Bernier (immigrant) and Marie Jeanne Anne Bour&eacute;.</div>
+  <div class="citations">
+    <div class="citations-label">Sources</div>
+    <ul>
+      <li><a href="https://www.nosorigines.qc.ca/GenealogieQuebec.aspx?pid=652496&lng=en" target="_blank">Nos Origines, PID 652496</a> &mdash; birth 4 Apr 1695, death 19 Feb 1757; parents, marriage, 9 children including Joachim</li>
+      <li>Quebec Parish Registers: Charlesbourg, baptism 4 Apr 1695; Notre-Dame-de-Qu&eacute;bec, marriage 28 Nov 1724 &mdash; <a href="https://www.prdh-igd.com/en/home" target="_blank">PRDH</a></li>
+      <li><a href="https://www.mount-royal.ca/heritage/getperson.php?personID=I22739&tree=godbout" target="_blank">Mount-Royal Heritage Database</a> &mdash; cites PRDH, Tanguay Vol. 1 pp. 45 &amp; 78, Jett&eacute; p. 90</li>
+    </ul>
+  </div>
+</div>
+
+<div class="section-divider"><span>France &rarr; Canada Immigration (1693)</span></div>
+
+<!-- ==================== PERSON 14: ANDRE 1663 ==================== -->
+<div class="person france" style="margin-top: 18px;">
+  <div class="gen-label">9x GREAT-GRANDFATHER</div>
+  <div class="person-name">Andr&eacute; Bernier</div>
+  <div class="person-dates">Born 24 Jul 1663, St-Andr&eacute;, Niort, Poitou-Charentes, France &mdash; Died 28 Sep 1729, Charlesbourg, Quebec, Canada</div>
+  <div class="person-location"><strong>Born: Niort, France</strong> &rarr; Immigrated to Canada 1693 &rarr; Charlesbourg, Quebec</div>
+  <div class="person-detail">Educated; could read and write. Occupation listed as "migrant" upon arrival. Married 11 Aug 1693 at Charlesbourg, Quebec to Marie Jeanne Anne Bour&eacute; (born 9 Mar 1678, Bourg-Royal, Quebec; died 10 Sep 1747). Marriage contract: 10 Aug 1693, Notaire Fran&ccedil;ois Genaple de Bellefonds. Son of Pierre Bernier and Marguerite Baraton of Niort, France.</div>
+  <div class="border-badge">IMMIGRATED FROM FRANCE TO CANADA &mdash; 1693</div>
+  <div class="citations">
+    <div class="citations-label">Sources</div>
+    <ul>
+      <li><a href="http://www.fichierorigine.com/recherche?numero=240338" target="_blank">Fichier Origine, Record #240338</a> &mdash; confirms baptism 24 Jul 1663, St-Andr&eacute; parish, Niort, Diocese of Poitiers; parents Pierre Bernier and Marguerite Baraton</li>
+      <li><a href="https://www.nosorigines.qc.ca/GenealogieQuebec.aspx?genealogy=Andre_Bernier&pid=652494&lng=en" target="_blank">Nos Origines, PID 652494</a> &mdash; birth/death dates, marriage 11 Aug 1693 Charlesbourg, 12 children</li>
+      <li><a href="https://www.findagrave.com/memorial/142084201/andre-bernier" target="_blank">Find a Grave, Memorial #142084201</a> &mdash; Charlesbourg Ancient Cemetery</li>
+      <li><a href="https://www.wikitree.com/wiki/Bernier-487" target="_blank">WikiTree: Bernier-487</a> &mdash; cites Fichier Origine and Nos Origines <span class="cite-note">(use with caution per genealogist note)</span></li>
+      <li><a href="https://www.familysearch.org/search/catalog/1912316" target="_blank">FamilySearch Library</a>: Bernier, Cyril. <em>Andre Bernier de Niort 1663&ndash;1729</em>. 2nd ed. Saint-Eustache, QC: &Eacute;ditions C. Bernier, 1993. 170 pp. ISBN 2920177281.</li>
+      <li>PRDH: Marriage record 11 Aug 1693 Charlesbourg; burial 29 Sep 1729 Charlesbourg &mdash; <a href="https://www.prdh-igd.com/en/home" target="_blank">prdh-igd.com</a></li>
+      <li>Tanguay, Cyprien. <em>Dictionnaire g&eacute;n&eacute;alogique des familles canadiennes</em> (1871&ndash;1890), Vol. 1, pp. 45 &amp; 78</li>
+      <li>Jett&eacute;, Ren&eacute;. <em>Dictionnaire g&eacute;n&eacute;alogique des familles du Qu&eacute;bec</em> (1983/2003), p. 90</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== SUMMARY ==================== -->
+<div style="margin-top: 35px; background: #fff; border-radius: 10px; padding: 22px 26px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-top: 4px solid #2c3e50;">
+  <h3 style="font-size: 16px; color: #2c3e50; margin-bottom: 10px;">Summary</h3>
+  <p style="font-size: 14px; line-height: 1.8; color: #444;">
+    The <strong>most direct path</strong> from Brian C. Lynch in the United States to Canada runs through the <strong>Bernier</strong> maternal line. Brian's 2x great-grandfather, <strong>Achille "Archie" Bernier</strong>, was born in <strong>Trois-Rivi&egrave;res, Quebec, Canada</strong> in 1877 and <strong>immigrated to the United States in 1890</strong> at approximately age 13.
+  </p>
+  <p style="font-size: 14px; line-height: 1.8; color: #444; margin-top: 10px;">
+    Before Archie, the Bernier family lived in Quebec for <strong>seven continuous generations</strong> (c. 1693&ndash;1890), centered around <strong>Charlesbourg</strong> and <strong>Bellechasse County</strong>. The line traces back to <strong>Andr&eacute; Bernier</strong>, who immigrated from <strong>Niort, France</strong> to Quebec in <strong>1693</strong>.
+  </p>
+  <p style="font-size: 14px; line-height: 1.8; color: #444; margin-top: 10px;">
+    <strong>Other Canadian connections in the Perkins spreadsheet:</strong> Stephen Perkins (4x great-grandfather, born 1800 "East Canada"); Phoebe Anna Merchant (step-great-great-grandmother, born 1871 Canada); and the entire Merchant/Marchand line, which traces back to Jacques Marchand in Trois-Rivi&egrave;res in 1660. The Bernier line is the most direct because it is only <strong>two generations</strong> removed from Brian.
+  </p>
+</div>
+
+<!-- ==================== SOURCE DATABASES ==================== -->
+<div class="db-section">
+  <h3>Source Databases Referenced</h3>
+  <div class="db-grid">
+    <div class="db-item"><a href="https://www.nosorigines.qc.ca/genealogie.aspx?lng=en" target="_blank">Nos Origines</a> <span class="db-desc">&mdash; Free. Quebec genealogy. All 6 Canadian-era Berniers found with PIDs.</span></div>
+    <div class="db-item"><a href="https://www.fichierorigine.com/fr/" target="_blank">Fichier Origine</a> <span class="db-desc">&mdash; Free. French origins of Quebec settlers. Record #240338 for Andr&eacute; Bernier.</span></div>
+    <div class="db-item"><a href="https://www.prdh-igd.com/en/home" target="_blank">PRDH-IGD</a> <span class="db-desc">&mdash; Subscription. Quebec Catholic parish records 1621&ndash;1861.</span></div>
+    <div class="db-item"><a href="https://www.familysearch.org/en/search/collection/1321742" target="_blank">FamilySearch: QC Parish Registers</a> <span class="db-desc">&mdash; Free. Quebec Catholic Parish Registers, 1621&ndash;1979.</span></div>
+    <div class="db-item"><a href="https://genealogie.quebec/stemma4web/recherches/recherches-de-noms" target="_blank">G&eacute;n&eacute;alogie Qu&eacute;bec</a> <span class="db-desc">&mdash; Quebec name searches and parish record indexes.</span></div>
+    <div class="db-item"><a href="https://www.biographi.ca/en/search.php" target="_blank">Dictionary of Canadian Biography</a> <span class="db-desc">&mdash; Free. Biographical entries for notable Canadians.</span></div>
+    <div class="db-item"><a href="https://www.familysearch.org" target="_blank">FamilySearch.org</a> <span class="db-desc">&mdash; Free. U.S. Census, vital records, immigration records.</span></div>
+    <div class="db-item"><a href="https://www.findagrave.com" target="_blank">Find a Grave</a> <span class="db-desc">&mdash; Free. Cemetery and burial records.</span></div>
+  </div>
+  <div class="print-sources">
+    <h4>Key Print Sources</h4>
+    <ul>
+      <li>Tanguay, Cyprien. <em>Dictionnaire g&eacute;n&eacute;alogique des familles canadiennes depuis la fondation de la colonie jusqu'&agrave; nos jours</em>. 7 vols. Montr&eacute;al: Eusebe Senecal, 1871&ndash;1890. Vol. 1, pp. 45, 78.</li>
+      <li>Jett&eacute;, Ren&eacute;. <em>Dictionnaire g&eacute;n&eacute;alogique des familles du Qu&eacute;bec: des origines &agrave; 1730</em>. Montr&eacute;al: Presses de l'Universit&eacute; de Montr&eacute;al, 1983. p. 90.</li>
+      <li>Bernier, Cyril. <em>Andre Bernier de Niort 1663&ndash;1729</em>. 2nd ed. Saint-Eustache, QC: &Eacute;ditions C. Bernier, 1993. 170 pp. ISBN 2920177281. <a href="https://www.familysearch.org/search/catalog/1912316" target="_blank">FamilySearch catalog</a>.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="footer">
+  Compiled from the Perkins family genealogy spreadsheet (updated June 2025) and supplemental source research.<br>
+  Prepared March 2, 2026.
+</div>
+
+</div>
+</body>
+</html>
